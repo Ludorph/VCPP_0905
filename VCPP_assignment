@@ -1,0 +1,107 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
+#include <iostream>
+
+
+int main()
+{
+	const int ESC = 27;
+	char qwer = 0;
+	bool Tr = true;
+
+	std::cout << "\t202114040 김한서\n";
+	std::cout << "\t잘 부탁드립니다\n\n\n";
+
+
+
+	while (Tr)
+	{
+		printf("Command> ");
+
+		qwer = std::cin.get();
+		//
+
+		//qwer = scanf("%s",&qwer);
+		//왜 scanf는 먹통이 되고 cin은 되는거지?
+
+
+
+		if (ESC == qwer)
+		{
+			Tr = false;
+			exit(1);
+		}
+
+		
+
+
+		
+		if (qwer == 'q')
+		{
+			printf("qwer 화이팅\n");
+		}
+
+		else if (qwer == 'w')
+		{
+			printf("과제 너무 좋다\n");
+		}
+
+		else if (qwer == 'e')
+		{
+			printf("담주부턴 과제량 3배다\n");
+		}
+
+		else if (qwer == 'r')
+		{
+			printf("행복합니다.\n");
+		}
+
+		else
+		{
+			printf("q, w, e, r 중 다시 입력하세요\n");
+		}
+
+		std::cin.ignore();
+
+	}
+	return 0;
+	
+	
+}
+
+
+/*
+1. 프로그램 시작
+2. 아래와 같이 스플래쉬 이미지 출력 (자유롭게)
+
+   " 이은석의 행복한 VC++ "
+
+3. 커맨드 입력받도록 UI출력 (반드시 입력한 문자가 커서인'_' 위치에 출력되도록
+
+ex >
+command>_
+command>p_
+command>psdfsdfe_
+
+(엔터쳐야 담으로 넘어가도록)
+
+
+4. 아래 네가지 커맨드를 (알파벳1글자) 입력하면 해당 문자열이 나오도록 출력한다.
+
+q : qwer 화이팅
+
+w : 과제 너무 좋다
+
+e : 담주부턴 과제량 3배다
+
+r : 행복합니다.
+
+
+
+5. 다른 글자를 입력하면 오류메시지와 함께 다시 입력하도록 안내한다.
+
+6. command 입력하고 메시지 출력 이후엔 다시 command를 입력하도록 무한루프를 만든다.
+
+7. esc키를 누르면 즉시 프로그램이 종료하도록 만든다.
+
+*/
