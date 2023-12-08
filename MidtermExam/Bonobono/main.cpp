@@ -300,7 +300,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
         L"BUTTON", L"Cube", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         640, 20, 160, 64, hWnd, (HMENU)5, hInstance, NULL);
 
-    /* 윈도우 보여주게 하는 함수. ShowWindow(
+    /* 윈도우 보여주게 하는 함수. 
+    ShowWindow(
     HWND(창에대한 핸들),
     int(ShowWindow가 처음 호출될 때 값은 해당 nCmdShow 매개 변수에서 WinMain 함수에서 가져온 값이어야함)
     ) */

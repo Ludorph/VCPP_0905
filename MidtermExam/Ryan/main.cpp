@@ -5,7 +5,7 @@
 
 // 도형을 나타내는 변수
 bool isShapeVisible = 0;
-enum ShapeType { NONE, BOX, CIRCLE, BONOBONO, RYAN };
+enum ShapeType { NONE, BOX, CIRCLE, BONOBONO, RYAN, CUBE };
 ShapeType currentShape = NONE;
 POINT ptStart, ptEnd, ptOffset, ptMoveStart;
 HWND hDrawingArea;
@@ -16,6 +16,7 @@ HBRUSH clear = CreateSolidBrush(RGB(255, 255, 255)); // 흰색
 
 RECT rect;
 bool isEyesClosed = 0;
+
 
 void DrawShape(HWND hWnd, HDC hdc) {
     // 박스 그리기
@@ -32,16 +33,22 @@ void DrawShape(HWND hWnd, HDC hdc) {
         DrawBonobono(hWnd, hdc, isEyesClosed);
         break;
     }
-    case RYAN:
+    case RYAN: {
         RECT rect1 = { 0, 0, 800, 480 };
         FillRect(hdc, &rect1, clear);
         DrawRyan(hWnd, hdc, ptStart.x, ptStart.y, ptEnd.x, ptEnd.y);
         break;
     }
+
+    case CUBE: {
+        Drawcube(hWnd, hdc, ptStart, ptEnd);
+        break;
+    }
+    }
+        
+
     DeleteObject(hBrush);
 }
-
-
 
 // 윈도우 프로시저
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -69,7 +76,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             currentShape = RYAN;
             break;
         case 5:
-            currentShape = NONE;
+            currentShape = CUBE;
+            SetFocus(hDrawingArea);
             InvalidateRect(hDrawingArea, NULL, 1);
             break;
         }
@@ -219,7 +227,7 @@ LRESULT CALLBACK DrawingProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 }
 
 // 프로그램 진입점
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow) {
 
     HWND hWnd;
     HWND hButtonBox, hButtonCircle, hButtonTriangle, hButtonLine, hButtonStop;
@@ -227,7 +235,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     hBrush[0] = CreateSolidBrush(RGB(255, 240, 200));
     hBrush[1] = CreateSolidBrush(RGB(255, 255, 255));
 
-    WNDCLASSEX wcex;
+    //여기랑 / 부모 윈도우
+    WNDCLASSEX wcex = { 0 };
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = WndProc;
@@ -245,6 +254,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         return 1;
     }
 
+    //여기랑 뭔 차이지?? / 자식 윈도우?
     wcex.lpfnWndProc = DrawingProc;
     wcex.hbrBackground = hBrush[1];
     wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
@@ -255,7 +265,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     }
 
     hWnd = CreateWindow(
-        L"ButtonWindowClass", L"Midterm Exam(유준하)", WS_OVERLAPPED | WS_SYSMENU,
+        L"ButtonWindowClass", L"Midterm Exam", WS_OVERLAPPED | WS_SYSMENU,
         CW_USEDEFAULT, 0, 912, 628, NULL, NULL, hInstance, NULL);
 
     if (!hWnd) {
